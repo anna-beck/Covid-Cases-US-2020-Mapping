@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Covid Case Rate - US</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;    
+        }
+
+        #info {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            background: rgba(0,0,0,0.75);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 8px;
+            max-width: 320px;
+            font-family: Arial, sans-serif;
+        }
+
+        #info h2 {
+            margin: 0 0 6px 0;
+            font-size: 16px;
+        }
+
+        #info p {
+            margin: 0 0 6px 0;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        #legend {
+            position: absolute;
+            bottom: 18px;
+            right: 18px;
+            z-index: 2;
+            background: rgba(0,0,0,0.75);
+            color: #fff;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: Arial, sans-serif;
+        }
+
+        #legend div {
+            display: flex;
+            align-items: center;
+            margin: 4px 0;
+        }
+
+        #legend .legend-title {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .swatch {
+            width: 14px;
+            height: 14px;
+            margin-right: 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id="info">
+        <h2>COVID-19 Case Rates (2020)</h2>
+        <p>County-level case rates (cases per 1,000 residents). Click a county for details.</p>
+        <p>Sources: The New York Times (2020), ACS 2018 5-year, U.S. Census Bureau.</p>
+    </div>
+
+    <div id="legend">
+        <div class="legend-title">Rate (per 1000 people)</div>
+        <div><span class="swatch" style="background:#fef0d9"></span>0–10</div>
+        <div><span class="swatch" style="background:#fdd49e"></span>10–25</div>
+        <div><span class="swatch" style="background:#fdbb84"></span>25–50</div>
+        <div><span class="swatch" style="background:#fc8d59"></span>50–75</div>
+        <div><span class="swatch" style="background:#ef6548"></span>75–100</div>
+        <div><span class="swatch" style="background:#d7301f"></span>100–150</div>
+        <div><span class="swatch" style="background:#b30000"></span>150–200</div>
+        <div><span class="swatch" style="background:#7f0000"></span>200+</div>
+    </div>
+
+    <div id="map"></div>
+    <script>
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoiYW5uYWJ1dyIsImEiOiJjbWt6MHQ2Y3owZG9yM2dwd3Rsbmd3Z2VjIn0.8mbsdZSWQd8bNdc2tYgNrA';
+        let map = new mapboxgl.Map({
+            container: 'map',
+            projection: 'albers',
+            style: 'mapbox://styles/mapbox/dark-v10',
+            zoom: 3.5,
+            minZoom: 3,
+            center: [-96, 38]
+        });
+
+        map.on('load', function() {
+          map.addSource('covidRates', {
+            type: 'geojson',
+            data: 'assets/us-covid-2020-rates/us-covid-2020-rates.json'
+          });
+
+          map.addLayer({
+            id: 'covid-rates-fill',
+            type: 'fill',
+            source: 'covidRates',
+            paint: {
+              'fill-color': [
+              'step',
+                ['get', 'rates'],
+                '#fef0d9',
+                10, '#fdd49e',
+                25, '#fdbb84',
+                50, '#fc8d59',
+                75, '#ef6548',
+                100, '#d7301f',
+                150, '#b30000',
+                200, '#7f0000'
+              ],
+              'fill-opacity': 0.8
+            
+            }
+          });
+
+          map.addLayer({
+            id: 'covid-rates-outline',
+            type: 'line',
+            source: 'covidRates',
+            paint: {
+              'line-color': '#111',
+              'line-width': 0.2,
+              'line-opacity': 0.6
+            }
+          });
+
+          map.on('click', 'covid-rates-fill', function (e) {
+                const p = e.features[0].properties;
+
+                new mapboxgl.Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML(
+                        '<strong>' + p.county + '</strong><br>' +
+                        'Case rate: ' + Number(p.rates).toFixed(1)
+                    )
+                    .addTo(map);
+          });
+
+          map.on('mouseenter', 'covid-rates-fill', function () {
+                map.getCanvas().style.cursor = 'pointer';
+          });
+
+          map.on('mouseleave', 'covid-rates-fill', function () {
+                map.getCanvas().style.cursor = '';
+          });
+        });
+
+    </script>
+
+</body>
+
+</html>
