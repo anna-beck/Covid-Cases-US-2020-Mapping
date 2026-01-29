@@ -10,19 +10,21 @@ The project was created using Mapbox GL JS to make both a choropleth and proport
 
 ## The Maps
 - **Choropleth Map – COVID-19 Case Rates (per 1,000 residents)**  
-  `map1.html`  
-  https://[your_github_username].github.io/[your_repository_name]/map1.html
+ 
+  [Covid Rates 2020 - US](https://anna-beck.github.io/Covid-Cases-US-2020-Mapping/map1.html)<br>
+    or Clickable URL: <https://anna-beck.github.io/Covid-Cases-US-2020-Mapping/map1.html>
 
 - **Proportional Symbol Map – Total COVID-19 Cases**  
-  `map2.html`  
-  https://[your_github_username].github.io/[your_repository_name]/map2.html
+ 
+  [Covid Cases 2020 - US](https://anna-beck.github.io/Covid-Cases-US-2020-Mapping/map2.html)<br>
+    or Clickable URL: <https://anna-beck.github.io/Covid-Cases-US-2020-Mapping/map2.html>
 
 ---
 
 ## Screenshots of Maps
 
-/img/choro_map.png
-/img/prop_map.png
+![Choropleth Map - Covid Rates 2020 US](/img/choro_map.png)<br>
+![Proportional Symbol Map - Covid Cases 2020 US](/img/prop_map.png)
 
 
 ---
@@ -71,11 +73,11 @@ The data was reprojected into Albers Equal Area so that it could represent accur
 ## Credits and Acknowledgments
 
 For functions and features that I didn't know very well, I referenced mapbox docs including:
-https://docs.mapbox.com/style-spec/reference/layers/#paint-circle-radius
-https://docs.mapbox.com/mapbox-gl-js/guides/styles/work-with-layers/
-https://docs.mapbox.com/style-spec/reference/layers/#circle
-https://docs.mapbox.com/style-spec/reference/expressions/#interpolate
-https://docs.mapbox.com/mapbox-gl-js/api/events/#mapmouseevent
+<https://docs.mapbox.com/style-spec/reference/layers/#paint-circle-radius><br>
+<https://docs.mapbox.com/mapbox-gl-js/guides/styles/work-with-layers/><br>
+<https://docs.mapbox.com/style-spec/reference/layers/#circle><br>
+<https://docs.mapbox.com/style-spec/reference/expressions/#interpolate><br>
+<https://docs.mapbox.com/mapbox-gl-js/api/events/#mapmouseevent><br><br>
 
 Data downloaded from Professor Zhao!
 
